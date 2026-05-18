@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f9f7f2;
+  --color-foreground: #1d1916;
+  --color-accent: #d97757;
+
+  --font-serif: var(--font-dm-serif), serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased font-sans selection:bg-accent selection:text-white;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
