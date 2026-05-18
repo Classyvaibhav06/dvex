@@ -12,8 +12,8 @@ module.exports = {
         accent: "#c25e1a", // Burnt orange
       },
       fontFamily: {
-        serif: ["var(--font-dm-serif)", "serif"],
-        sans: ["var(--font-dm-sans)", "sans-serif"],
+        serif: ["var(--font-serif)", "serif"],
+        sans: ["var(--font-sans)", "sans-serif"],
       },
     },
   },

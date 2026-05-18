@@ -1,16 +1,17 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { DM_Serif_Display, DM_Sans } from "next/font/google";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import Background from "@/components/Background";
-const dmSerif = DM_Serif_Display({
-  weight: "400",
+
+const serifFont = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-dm-serif",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
 });
 
-const dmSans = DM_Sans({
+const sansFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -24,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${dmSerif.variable} ${dmSans.variable} font-sans`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${serifFont.variable} ${sansFont.variable} font-sans`}>
         <Background />
         {children}
       </body>

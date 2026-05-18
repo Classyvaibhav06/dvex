@@ -12,7 +12,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-serif text-6xl md:text-8xl leading-[1.05] tracking-tight text-foreground mb-8"
+            className="font-serif font-bold text-6xl md:text-8xl leading-[1.05] tracking-tight text-foreground mb-8"
           >
             We grow brands that{" "}
             <span className="text-accent italic">mean something.</span>

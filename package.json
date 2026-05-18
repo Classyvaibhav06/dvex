@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/Classyvaibhav06/dvex#readme",
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/postcss": "^4.3.0",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.16.0",
