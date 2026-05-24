@@ -1,6 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
-import VantaBackground from "./VantaBackground";
+import dynamic from "next/dynamic";
+
+const VantaBackground = dynamic(() => import("./VantaBackground"), {
+  ssr: false,
+});
 
 export default function Hero() {
   return (
@@ -35,9 +39,9 @@ export default function Hero() {
           >
             <a
               href="#contact"
-              className="inline-flex h-14 items-center justify-center bg-foreground text-background px-8 text-sm font-medium tracking-wide hover:bg-accent hover:text-white transition-colors duration-300"
+              className="inline-flex h-14 items-center justify-center bg-foreground text-background px-8 rounded-full text-sm font-medium tracking-wide hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 gap-2"
             >
-              Start a project
+              Start a project <span className="text-lg">→</span>
             </a>
           </motion.div>
         </div>

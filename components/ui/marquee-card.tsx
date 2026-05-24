@@ -2,6 +2,7 @@ import { Star } from "lucide-react"
 
 import { LiquidCard, CardContent } from "@/components/ui/liquid-glass-card"
 import { Marquee } from "@/components/ui/marquee"
+import Image from "next/image"
 
 const testimonials = [
   {
@@ -46,9 +47,11 @@ export const Component = () => {
           <LiquidCard key={index} className="mx-1 rounded-3xl w-80 h-full">
             <CardContent className="p-6 py-0">
               <div className="mb-4 flex items-center space-x-3">
-                <img
+                <Image
                   src={testimonial.avatar || "/placeholder.svg"}
                   alt={testimonial.name}
+                  width={40}
+                  height={40}
                   className="h-10 w-10 object-cover rounded-full"
                 />
                 <div>

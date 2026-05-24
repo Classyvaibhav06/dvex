@@ -1,37 +1,43 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 // @ts-ignore
 import GLOBE from "vanta/dist/vanta.globe.min";
 
 export default function VantaBackground() {
   const vantaRef = useRef<HTMLDivElement>(null);
-  const [vantaEffect, setVantaEffect] = useState<any>(null);
-
   useEffect(() => {
-    if (!vantaEffect && vantaRef.current) {
-      setVantaEffect(
-        GLOBE({
-          el: vantaRef.current,
-          THREE: THREE,
-          mouseControls: false,
-          touchControls: false,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          scale: 1.0,
-          scaleMobile: 1.0,
-          backgroundColor: 0xf9f7f2,
-          color: 0xd97757,
-          color2: 0x1d1916,
-          size: 0.7,
-        }),
-      );
+    let effect: any = null;
+    
+    if (vantaRef.current) {
+      // Create an extensible prototype-linked clone of the frozen THREE namespace
+      // to shim VertexColors for compatibility with Vanta's legacy Three.js implementation.
+      const customThree = Object.create(THREE);
+      customThree.VertexColors = 2;
+
+      effect = GLOBE({
+        el: vantaRef.current,
+        THREE: customThree,
+        mouseControls: false,
+        touchControls: false,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        backgroundColor: 0xf9f7f2,
+        color: 0xd97757,
+        color2: 0x1d1916,
+        size: 0.7,
+      });
     }
+
     return () => {
-      if (vantaEffect) vantaEffect.destroy();
+      if (effect) {
+        effect.destroy();
+      }
     };
-  }, [vantaEffect]);
+  }, []);
 
   return (
     <div

@@ -5,8 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState<string>("");
@@ -21,8 +23,22 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll Spy to highlight the currently visible section
+  // Update active section based on pathname, or scrollspy if on homepage
   useEffect(() => {
+    if (pathname === "/work") {
+      setActiveSection("work");
+      return;
+    }
+    if (pathname === "/services") {
+      setActiveSection("services");
+      return;
+    }
+    if (pathname === "/about") {
+      setActiveSection("about");
+      return;
+    }
+
+    // Scroll Spy to highlight the currently visible section on home page
     const sections = ["work", "services", "about"];
     const observers = sections.map((id) => {
       const el = document.getElementById(id);
@@ -56,24 +72,20 @@ export default function Navbar() {
       });
       window.removeEventListener("scroll", handleTopScroll);
     };
-  }, []);
+  }, [pathname]);
 
   const navLinks = [
-    { name: "Work", href: "#work", id: "work" },
-    { name: "Services", href: "#services", id: "services" },
-    { name: "About", href: "#about", id: "about" },
+    { name: "Work", href: "/work", id: "work" },
+    { name: "Services", href: "/services", id: "services" },
+    { name: "About", href: "/about", id: "about" },
   ];
 
   return (
     <>
-      <motion.nav
-        animate={{
-          paddingTop: isScrolled ? "12px" : "0px",
-          paddingLeft: isScrolled ? "16px" : "0px",
-          paddingRight: isScrolled ? "16px" : "0px",
-        }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 w-full flex justify-center pointer-events-none"
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 w-full flex justify-center pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isScrolled ? "pt-3 px-4" : "pt-0 px-0"
+        }`}
       >
         <motion.div
           initial={{ opacity: 0, y: -18 }}
@@ -81,17 +93,12 @@ export default function Navbar() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex justify-center pointer-events-auto"
         >
-          <motion.div
-            animate={{
-              maxWidth: isScrolled ? "1280px" : "100%",
-              borderRadius: isScrolled ? "999px" : "0px",
-              borderWidth: isScrolled ? "1px" : "0px",
-              borderBottomWidth: "1px",
-              paddingTop: isScrolled ? "8px" : "16px",
-              paddingBottom: isScrolled ? "8px" : "16px",
-            }}
-            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full bg-background/95 backdrop-blur-xl border-foreground/10 shadow-[0_18px_60px_-32px_rgba(29,25,22,0.7)] flex justify-center"
+          <div
+            className={`w-full bg-background/95 backdrop-blur-xl border flex justify-center shadow-[0_18px_60px_-32px_rgba(29,25,22,0.7)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[max-width,border-radius,padding] ${
+              isScrolled
+                ? "max-w-7xl rounded-full py-2 border-foreground/10 px-4"
+                : "max-w-full rounded-none py-4 border-b-foreground/10 border-t-transparent border-l-transparent border-r-transparent px-0"
+            }`}
           >
             <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-10 flex items-center justify-between md:px-5">
               {/* Logo */}
@@ -102,18 +109,22 @@ export default function Navbar() {
                 <motion.div
                   whileHover={{ scale: 1.025, rotate: -0.5 }}
                   whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 420, damping: 24 }}
                   animate={{
-                    width: isScrolled ? 144 : 178,
-                    height: isScrolled ? 40 : 52,
+                    scale: isScrolled ? 0.82 : 1,
                   }}
-                  className="relative flex items-center"
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 26,
+                  }}
+                  style={{ originX: 0, originY: 0.5 }}
+                  className="relative flex items-center w-[178px] h-[52px]"
                 >
                   <Image
                     src="/devx_logo.png"
                     alt="DevX Digital"
-                    width={480}
-                    height={300}
+                    fill
+                    sizes="178px"
                     className="object-contain"
                     priority
                   />
@@ -154,12 +165,11 @@ export default function Navbar() {
                         className="relative select-none flex flex-col items-center justify-center font-sans tracking-wide"
                       >
                         <span
-                          className={`relative z-10 transition-colors duration-300 ${
+                          className={`relative z-10 block transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                             isActive ? "text-background font-semibold" : "text-foreground/78 hover:text-foreground"
+                          } ${
+                            isScrolled ? "py-1.5 px-5" : "py-2.5 px-5"
                           }`}
-                          style={{
-                            padding: isScrolled ? "8px 16px" : "10px 20px",
-                          }}
                         >
                           {link.name}
                         </span>
@@ -215,10 +225,9 @@ export default function Navbar() {
                 >
                   <Link
                     href="#contact"
-                    className="group relative ml-1 flex items-center gap-2 rounded-full bg-accent text-[13px] font-semibold text-white shadow-[0_10px_24px_-16px_rgba(217,119,87,0.95)] transition-all hover:bg-foreground hover:text-accent"
-                    style={{
-                      padding: isScrolled ? "8px 16px" : "10px 20px",
-                    }}
+                    className={`group relative ml-1 flex items-center gap-2 rounded-full bg-accent text-[13px] font-semibold text-white shadow-[0_10px_24px_-16px_rgba(217,119,87,0.95)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-foreground hover:text-accent ${
+                      isScrolled ? "py-1.5 px-5" : "py-2.5 px-5"
+                    }`}
                   >
                     Contact
                     <div className="relative w-3.5 h-3.5 overflow-hidden flex items-center justify-center">
@@ -254,9 +263,9 @@ export default function Navbar() {
                 </div>
               </button>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
-      </motion.nav>
+      </nav>
 
       {/* Mobile Slide-down Overlay Menu */}
       <AnimatePresence>

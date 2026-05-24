@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { BarChart3, Brush, Megaphone, Search, Share2 } from "lucide-react";
+import Image from "next/image";
 
 const services = [
   {
@@ -76,10 +77,12 @@ export default function Services() {
               }`}
             >
               <div className="absolute inset-x-0 top-0 h-48 overflow-hidden">
-                <div
-                  className="absolute inset-0 bg-cover bg-center opacity-90 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100 group-hover:rotate-1"
-                  style={{ backgroundImage: `url(${svc.image})` }}
-                  aria-hidden="true"
+                <Image
+                  src={svc.image}
+                  alt={svc.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="object-cover object-center opacity-90 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100 group-hover:rotate-1"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/15 to-background" />
               </div>
